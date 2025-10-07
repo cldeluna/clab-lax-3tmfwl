@@ -14,45 +14,45 @@ topology:
       kind: ceos
       image: ceos:latest
       mgmt-ipv4: 172.20.20.11
-      startup-config: configs/lax-d01-config..txt
+      startup-config: configs/lax-d01-config.txt
 
     lax-d02:
       kind: ceos
       image: ceos:latest
       mgmt-ipv4: 172.20.20.12
-      startup-config: configs/lax-d02-config..txt
+      startup-config: configs/lax-d02-config.txt
 
     # Firewall/Edge
     lax-f01:
       kind: ceos
       image: ceos:latest
       mgmt-ipv4: 172.20.20.13
-      startup-config: configs/lax-f01-config..txt
+      startup-config: configs/lax-f01-config.txt
 
     # Access Switches
     lax-a01:
       kind: ceos
       image: ceos:latest
       mgmt-ipv4: 172.20.20.14
-      startup-config: configs/lax-a01-config..txt
+      startup-config: configs/lax-a01-config.txt
 
     lax-a02:
       kind: ceos
       image: ceos:latest
       mgmt-ipv4: 172.20.20.15
-      startup-config: configs/lax-a02-config..txt
+      startup-config: configs/lax-a02-config.txt
 
     lax-a03:
       kind: ceos
       image: ceos:latest
       mgmt-ipv4: 172.20.20.16
-      startup-config: configs/lax-a03-config..txt
+      startup-config: configs/lax-a03-config.txt
 
     lax-a04:
       kind: ceos
       image: ceos:latest
       mgmt-ipv4: 172.20.20.17
-      startup-config: configs/lax-a04-config..txt
+      startup-config: configs/lax-a04-config.txt
 
   links:
     # MLAG Peer Link between d01 and d02
