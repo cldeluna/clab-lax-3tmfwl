@@ -1,7 +1,7 @@
 ! lax-a03 Configuration
 hostname lax-a03
 !
-username admin privilege 15 password admin
+username admin privilege 15 role network-admin secret admin
 !
 management api http-commands
    no shutdown

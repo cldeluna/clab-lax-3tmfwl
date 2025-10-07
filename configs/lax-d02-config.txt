@@ -1,7 +1,7 @@
 ! lax-d02 Configuration
 hostname lax-d02
 !
-username admin privilege 15 password admin
+username admin privilege 15 role network-admin secret admin
 !
 management api http-commands
    no shutdown
