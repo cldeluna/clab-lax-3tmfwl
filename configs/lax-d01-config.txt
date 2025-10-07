@@ -24,7 +24,8 @@ interface Loopback0
    ip address 198.51.100.2/32
    description d01 loopback
 !
-
+ip routing
+!
 vlan 2
    name c01-d01_transit_198.51.100.8/30
 

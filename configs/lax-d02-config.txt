@@ -26,7 +26,8 @@ interface Loopback0
 !
 vlan 3
    name c01-d02_transit_198.51.100.12/30
-
+!
+ip routing
 
 ! MLAG Configuration
 vlan 4094

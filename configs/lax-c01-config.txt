@@ -109,6 +109,7 @@ vlan 606
 vlan 607
    name QUARANTINE_203.0.113.224/27
 !
+ip routing
 ! Static routes to security zones via firewall
 ip route 203.0.113.0/27 6.6.6.1
 ip route 203.0.113.32/27 6.6.6.1
