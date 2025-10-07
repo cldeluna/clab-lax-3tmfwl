@@ -41,6 +41,13 @@ interface Port-Channel1
    switchport mode trunk
    switchport trunk allowed vlan 2,3
 
+interface Vlan2
+   description L3 transit to d01
+   ip address 198.51.100.9/30
+
+interface Vlan3
+   description L3 transit to d02
+   ip address 198.51.100.13/30
 
 
 interface Ethernet1
