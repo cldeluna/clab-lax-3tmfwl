@@ -1,6 +1,20 @@
 ! lax-d01 Configuration
 hostname lax-d01
 !
+username admin privilege 15 password admin
+!
+management api http-commands
+   no shutdown
+!
+management api gnmi
+   no shutdown
+!
+management api netconf
+   no shutdown
+!
+management api grpc
+   no shutdown
+!
 interface Management0
    ip address 172.20.20.11/24
    no shutdown

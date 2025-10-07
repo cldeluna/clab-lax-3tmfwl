@@ -1,6 +1,20 @@
 ! lax-a03 Configuration
 hostname lax-a03
 !
+username admin privilege 15 password admin
+!
+management api http-commands
+   no shutdown
+!
+management api gnmi
+   no shutdown
+!
+management api netconf
+   no shutdown
+!
+management api grpc
+   no shutdown
+!
 interface Management0
    ip address 172.20.20.16/24
    no shutdown

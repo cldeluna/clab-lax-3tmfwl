@@ -1,6 +1,20 @@
 ! lax-d02 Configuration
 hostname lax-d02
 !
+username admin privilege 15 password admin
+!
+management api http-commands
+   no shutdown
+!
+management api gnmi
+   no shutdown
+!
+management api netconf
+   no shutdown
+!
+management api grpc
+   no shutdown
+!
 interface Management0
    ip address 172.20.20.12/24
    no shutdown
