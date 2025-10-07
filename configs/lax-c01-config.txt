@@ -115,6 +115,7 @@ ip route 203.0.113.224/27 6.6.6.1
 
 router ospf 1
    router-id 198.51.100.1
+   redistribute static
    network 198.51.100.1/32 area 0.0.0.0
    network 198.51.100.8/30 area 0.0.0.0
    network 198.51.100.12/30 area 0.0.0.0
