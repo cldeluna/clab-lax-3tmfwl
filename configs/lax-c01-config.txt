@@ -19,12 +19,30 @@ interface Management0
    ip address 172.20.20.10/24
    no shutdown
 !
+!
+interface Loopback0
+   ip address 198.51.100.1/32
+   description c01 loopback
+!
+
 ! Port-Channel to MLAG Pair (d01/d02)
 interface Port-Channel1
    description MLAG to lax-d01/d02
    switchport mode trunk
    switchport trunk allowed vlan 1-4094
 !
+vlan 2
+   name c01-d01_transit_198.51.100.8/30
+vlan 3
+   name c01-d02_transit_198.51.100.12/30
+
+interface Port-Channel1
+   description MLAG to d01/d02
+   switchport mode trunk
+   switchport trunk allowed vlan 2,3
+
+
+
 interface Ethernet1
    description lax-d01:eth3
    channel-group 1 mode active
@@ -94,4 +112,14 @@ ip route 203.0.113.160/27 6.6.6.1
 ip route 203.0.113.192/27 6.6.6.1
 ip route 203.0.113.224/27 6.6.6.1
 !
+
+router ospf 1
+   router-id 198.51.100.1
+   network 198.51.100.1/32 area 0.0.0.0
+   network 198.51.100.8/30 area 0.0.0.0
+   network 198.51.100.12/30 area 0.0.0.0
+   passive-interface default
+   no passive-interface Vlan2
+   no passive-interface Vlan3
+
 end

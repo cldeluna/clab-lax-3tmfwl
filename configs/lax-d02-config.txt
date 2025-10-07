@@ -19,6 +19,15 @@ interface Management0
    ip address 172.20.20.12/24
    no shutdown
 !
+!
+interface Loopback0
+   ip address 198.51.100.3/32
+   description d02 loopback
+!
+vlan 3
+   name c01-d02_transit_198.51.100.12/30
+
+
 ! MLAG Configuration
 vlan 4094
    name MLAG-PEER
@@ -55,8 +64,12 @@ mlag configuration
 interface Port-Channel1
    description MLAG to lax-c01
    switchport mode trunk
-   switchport trunk allowed vlan 1-4094
+   switchport trunk allowed vlan 3
    mlag 1
+!
+interface Vlan3
+   description L3 transit to c01
+   ip address 198.51.100.14/30
 !
 interface Ethernet3
    description lax-c01:eth3
@@ -112,5 +125,43 @@ interface Ethernet8
    description lax-a04:eth2
    channel-group 14 mode active
    no shutdown
+!
+! User VLANs
+!
+ip virtual-router mac-address 00:1c:73:00:00:99
+!
+interface Vlan10
+   ip address 192.0.2.1/26
+   description user_compute subnet 192.0.2.0/26
+   ip virtual-router address 192.0.2.1
+!
+interface Vlan20
+   ip address 192.0.2.65/26
+   description printers subnet 192.0.2.64/26
+   ip virtual-router address 192.0.2.65
+!
+interface Vlan30
+   ip address 192.0.2.129/26
+   description VoIP subnet 192.0.2.128/26
+   ip virtual-router address 192.0.2.129
+!
+interface Vlan40
+   ip address 192.0.2.193/26
+   description infrastructure subnet 192.0.2.192/26
+   ip virtual-router address 192.0.2.193
+!
+!OSPF
+!
+!
+router ospf 1
+   router-id 198.51.100.3
+   network 192.0.2.0/26 area 0.0.0.0
+   network 192.0.2.64/26 area 0.0.0.0
+   network 192.0.2.128/26 area 0.0.0.0
+   network 192.0.2.192/26 area 0.0.0.0
+   network 198.51.100.3/32 area 0.0.0.0
+   network 198.51.100.12/30 area 0.0.0.0
+   passive-interface default
+   no passive-interface Vlan3   
 !
 end
