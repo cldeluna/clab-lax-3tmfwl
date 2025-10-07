@@ -1,0 +1,91 @@
+! lax-f01 Configuration
+hostname lax-f01
+!
+interface Management0
+   ip address 172.20.20.13/24
+   no shutdown
+!
+! Layer 3 Outside link to lax-c01
+interface Ethernet1
+   description Outside to lax-c01
+   no switchport
+   ip address 6.6.6.1/30
+   no shutdown
+!
+! Layer 2 trunk to lax-c01 (Security Zone VLANs 600-607)
+interface Ethernet2
+   description L2 trunk to lax-c01
+   switchport mode trunk
+   switchport trunk allowed vlan 600-607
+   no shutdown
+!
+! Security Zone VLANs
+vlan 600
+   name DMZ_203.0.113.0/27
+!
+vlan 601
+   name PROD_203.0.113.32/27
+!
+vlan 602
+   name DEV_203.0.113.64/27
+!
+vlan 603
+   name GUEST_203.0.113.96/27
+!
+vlan 604
+   name IOT_203.0.113.128/27
+!
+vlan 605
+   name MGMT_203.0.113.160/27
+!
+vlan 606
+   name VPN_203.0.113.192/27
+!
+vlan 607
+   name QUARANTINE_203.0.113.224/27
+!
+! Security Zone Gateways
+interface Vlan600
+   description DMZ Gateway
+   ip address 203.0.113.1/27
+   no shutdown
+!
+interface Vlan601
+   description PROD Gateway
+   ip address 203.0.113.33/27
+   no shutdown
+!
+interface Vlan602
+   description DEV Gateway
+   ip address 203.0.113.65/27
+   no shutdown
+!
+interface Vlan603
+   description GUEST Gateway
+   ip address 203.0.113.97/27
+   no shutdown
+!
+interface Vlan604
+   description IOT Gateway
+   ip address 203.0.113.129/27
+   no shutdown
+!
+interface Vlan605
+   description MGMT Gateway
+   ip address 203.0.113.161/27
+   no shutdown
+!
+interface Vlan606
+   description VPN Gateway
+   ip address 203.0.113.193/27
+   no shutdown
+!
+interface Vlan607
+   description QUARANTINE Gateway
+   ip address 203.0.113.225/27
+   no shutdown
+!
+! Enable routing
+ip routing
+!
+end

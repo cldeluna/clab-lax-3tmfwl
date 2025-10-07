@@ -1,0 +1,87 @@
+name: lax-fabric
+
+topology:
+  nodes:
+    # Core Switch
+    lax-c01:
+      kind: ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.20.10
+      startup-config: configs/lax-c01-config.txt
+
+    # Distribution Switches (MLAG Pair)
+    lax-d01:
+      kind: ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.20.11
+      startup-config: configs/lax-d01-config..txt
+
+    lax-d02:
+      kind: ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.20.12
+      startup-config: configs/lax-d02-config..txt
+
+    # Firewall/Edge
+    lax-f01:
+      kind: ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.20.13
+      startup-config: configs/lax-f01-config..txt
+
+    # Access Switches
+    lax-a01:
+      kind: ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.20.14
+      startup-config: configs/lax-a01-config..txt
+
+    lax-a02:
+      kind: ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.20.15
+      startup-config: configs/lax-a02-config..txt
+
+    lax-a03:
+      kind: ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.20.16
+      startup-config: configs/lax-a03-config..txt
+
+    lax-a04:
+      kind: ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.20.17
+      startup-config: configs/lax-a04-config..txt
+
+  links:
+    # MLAG Peer Link between d01 and d02
+    - endpoints: ["lax-d01:eth1", "lax-d02:eth1"]
+    - endpoints: ["lax-d01:eth2", "lax-d02:eth2"]
+
+    # d01/d02 MLAG Port-Channel to c01
+    - endpoints: ["lax-d01:eth3", "lax-c01:eth1"]
+    - endpoints: ["lax-d01:eth4", "lax-c01:eth2"]
+    - endpoints: ["lax-d02:eth3", "lax-c01:eth3"]
+    - endpoints: ["lax-d02:eth4", "lax-c01:eth4"]
+
+    # c01 to f01 Links
+    - endpoints: ["lax-c01:eth5", "lax-f01:eth1"]  # L3 link
+    - endpoints: ["lax-c01:eth6", "lax-f01:eth2"]  # L2 trunk
+
+    # Access switches to d01/d02 MLAG Port-Channels
+    - endpoints: ["lax-a01:eth1", "lax-d01:eth5"]
+    - endpoints: ["lax-a01:eth2", "lax-d02:eth5"]
+
+    - endpoints: ["lax-a02:eth1", "lax-d01:eth6"]
+    - endpoints: ["lax-a02:eth2", "lax-d02:eth6"]
+
+    - endpoints: ["lax-a03:eth1", "lax-d01:eth7"]
+    - endpoints: ["lax-a03:eth2", "lax-d02:eth7"]
+
+    - endpoints: ["lax-a04:eth1", "lax-d01:eth8"]
+    - endpoints: ["lax-a04:eth2", "lax-d02:eth8"]
+
+# mgmt:
+#   network: lax-mgmt
+#   ipv4-subnet: 172.20.20.0/24

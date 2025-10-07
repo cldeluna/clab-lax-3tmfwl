@@ -1,0 +1,102 @@
+! lax-d01 Configuration
+hostname lax-d01
+!
+interface Management0
+   ip address 172.20.20.11/24
+   no shutdown
+!
+! MLAG Configuration
+vlan 4094
+   name MLAG-PEER
+   trunk group MLAG-PEER
+!
+interface Vlan4094
+   description MLAG Peer Link
+   ip address 10.255.255.1/30
+   no shutdown
+!
+! MLAG Peer Link
+interface Port-Channel100
+   description MLAG Peer Link
+   switchport mode trunk
+   switchport trunk group MLAG-PEER
+!
+interface Ethernet1
+   description MLAG Peer to lax-d02
+   channel-group 100 mode active
+   no shutdown
+!
+interface Ethernet2
+   description MLAG Peer to lax-d02
+   channel-group 100 mode active
+   no shutdown
+!
+mlag configuration
+   domain-id MLAG-D01-D02
+   local-interface Vlan4094
+   peer-address 10.255.255.2
+   peer-link Port-Channel100
+!
+! MLAG Port-Channel to c01
+interface Port-Channel1
+   description MLAG to lax-c01
+   switchport mode trunk
+   switchport trunk allowed vlan 1-4094
+   mlag 1
+!
+interface Ethernet3
+   description lax-c01:eth1
+   channel-group 1 mode active
+   no shutdown
+!
+interface Ethernet4
+   description lax-c01:eth2
+   channel-group 1 mode active
+   no shutdown
+!
+! MLAG Port-Channels to Access Switches
+interface Port-Channel11
+   description MLAG to lax-a01
+   switchport mode trunk
+   switchport trunk allowed vlan 1-4094
+   mlag 11
+!
+interface Ethernet5
+   description lax-a01:eth1
+   channel-group 11 mode active
+   no shutdown
+!
+interface Port-Channel12
+   description MLAG to lax-a02
+   switchport mode trunk
+   switchport trunk allowed vlan 1-4094
+   mlag 12
+!
+interface Ethernet6
+   description lax-a02:eth1
+   channel-group 12 mode active
+   no shutdown
+!
+interface Port-Channel13
+   description MLAG to lax-a03
+   switchport mode trunk
+   switchport trunk allowed vlan 1-4094
+   mlag 13
+!
+interface Ethernet7
+   description lax-a03:eth1
+   channel-group 13 mode active
+   no shutdown
+!
+interface Port-Channel14
+   description MLAG to lax-a04
+   switchport mode trunk
+   switchport trunk allowed vlan 1-4094
+   mlag 14
+!
+interface Ethernet8
+   description lax-a04:eth1
+   channel-group 14 mode active
+   no shutdown
+!
+end

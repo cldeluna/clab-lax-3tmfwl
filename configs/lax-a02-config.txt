@@ -1,0 +1,24 @@
+! lax-a02 Configuration
+hostname lax-a02
+!
+interface Management0
+   ip address 172.20.20.15/24
+   no shutdown
+!
+! Port-Channel to Distribution (MLAG)
+interface Port-Channel1
+   description Uplink to lax-d01/d02
+   switchport mode trunk
+   switchport trunk allowed vlan 1-4094
+!
+interface Ethernet1
+   description lax-d01:eth6
+   channel-group 1 mode active
+   no shutdown
+!
+interface Ethernet2
+   description lax-d02:eth6
+   channel-group 1 mode active
+   no shutdown
+!
+end

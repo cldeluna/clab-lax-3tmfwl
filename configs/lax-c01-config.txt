@@ -1,0 +1,83 @@
+! lax-c01 Configuration
+hostname lax-c01
+!
+interface Management0
+   ip address 172.20.20.10/24
+   no shutdown
+!
+! Port-Channel to MLAG Pair (d01/d02)
+interface Port-Channel1
+   description MLAG to lax-d01/d02
+   switchport mode trunk
+   switchport trunk allowed vlan 1-4094
+!
+interface Ethernet1
+   description lax-d01:eth3
+   channel-group 1 mode active
+   no shutdown
+!
+interface Ethernet2
+   description lax-d01:eth4
+   channel-group 1 mode active
+   no shutdown
+!
+interface Ethernet3
+   description lax-d02:eth3
+   channel-group 1 mode active
+   no shutdown
+!
+interface Ethernet4
+   description lax-d02:eth4
+   channel-group 1 mode active
+   no shutdown
+!
+! Layer 3 Outside link to lax-f01
+interface Ethernet5
+   description Outside to lax-f01
+   no switchport
+   ip address 6.6.6.2/30
+   no shutdown
+!
+! Layer 2 trunk to lax-f01 (Security Zone VLANs 600-607)
+interface Ethernet6
+   description L2 trunk to lax-f01
+   switchport mode trunk
+   switchport trunk allowed vlan 600-607
+   no shutdown
+!
+! Security Zone VLANs
+vlan 600
+   name DMZ_203.0.113.0/27
+!
+vlan 601
+   name PROD_203.0.113.32/27
+!
+vlan 602
+   name DEV_203.0.113.64/27
+!
+vlan 603
+   name GUEST_203.0.113.96/27
+!
+vlan 604
+   name IOT_203.0.113.128/27
+!
+vlan 605
+   name MGMT_203.0.113.160/27
+!
+vlan 606
+   name VPN_203.0.113.192/27
+!
+vlan 607
+   name QUARANTINE_203.0.113.224/27
+!
+! Static routes to security zones via firewall
+ip route 203.0.113.0/27 6.6.6.1
+ip route 203.0.113.32/27 6.6.6.1
+ip route 203.0.113.64/27 6.6.6.1
+ip route 203.0.113.96/27 6.6.6.1
+ip route 203.0.113.128/27 6.6.6.1
+ip route 203.0.113.160/27 6.6.6.1
+ip route 203.0.113.192/27 6.6.6.1
+ip route 203.0.113.224/27 6.6.6.1
+!
+end
